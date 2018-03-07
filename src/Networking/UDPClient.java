@@ -35,7 +35,7 @@ public class UDPClient implements Runnable
                 //this.incUptime();
                 msDelay = (new Random().nextInt(41) + 10) * 100;
                 uptime += msDelay;
-                String sentence = Integer.toString(packetNum) + "," + Integer.toString(uptime);
+                String sentence = Integer.toString(packetNum);
                 byte[] data = sentence.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, 9876);
                 socket.send(sendPacket);

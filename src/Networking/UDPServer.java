@@ -59,6 +59,10 @@ public class UDPServer implements Runnable
                     //upNodes.put(IPAddress, true);
                     socket.close();
                 }
+                catch (ConcurrentModificationException e)
+                {
+                    // all good!
+                }
             }
         }
 
@@ -76,7 +80,25 @@ public class UDPServer implements Runnable
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                for (InetAddress key : upNodes.keySet()){
+                Iterator iterator = upNodes.entrySet().iterator();
+                while (iterator.hasNext())
+                {
+                    HashMap.Entry entry = (HashMap.Entry)iterator.next();
+                    InetAddress key = (InetAddress) entry.getKey();
+                    int val = (Integer) entry.getValue();
+                    val++;
+                    if (val >= 30)
+                    {
+                        System.out.println(key.toString() + " has timed out" + "\n");
+                        iterator.remove();
+                    }
+                    else
+                    {
+                        upNodes.put(key, val);
+                    }
+                }
+
+                /*for (InetAddress key : upNodes.keySet()){
                     int curr = upNodes.get(key);
                     curr++;
                     if (curr >= 30){
@@ -85,7 +107,7 @@ public class UDPServer implements Runnable
                     }else {
                         upNodes.put(key, curr);
                     }
-                }
+                }*/
             }
         }, 0, 1000);
         server.run();
