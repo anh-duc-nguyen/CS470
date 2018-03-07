@@ -1,67 +1,81 @@
 package Networking;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
-public class UDPServer 
+public class UDPServer implements Runnable
 {
     DatagramSocket socket = null;
+    HashMap<InetAddress, LocalDateTime> upNodes = new HashMap<>();
 
-    public UDPServer() 
+    public UDPServer()
     {
-
     }
-    public void createAndListenSocket() 
+
+    public HashMap<InetAddress, LocalDateTime> getIPList()
     {
-        try 
+        return upNodes;
+    }
+
+    public void run()
+    {
+        System.out.println("Listening...");
+
+        try
         {
             socket = new DatagramSocket(9876);
             byte[] incomingData = new byte[1024];
 
-            while (true) 
+            while (true)
             {
-                DatagramPacket incomingPacket = new DatagramPacket(incomingData, 
-                		incomingData.length);
-                socket.receive(incomingPacket);
-                String message = new String(incomingPacket.getData());
-                InetAddress IPAddress = incomingPacket.getAddress();
-                int port = incomingPacket.getPort();
-                
-                System.out.println("Received message from client: " + message);
-                System.out.println("Client IP:"+IPAddress.getHostAddress());
-                System.out.println("Client port:"+port);
-                
-                String reply = "Thank you for the message";
-                byte[] data = reply.getBytes();
-                
-                DatagramPacket replyPacket =
-                        new DatagramPacket(data, data.length, IPAddress, port);
-                
-                socket.send(replyPacket);
-                Thread.sleep(2000);
-                socket.close();
+                DatagramPacket incomingPacket = new DatagramPacket(incomingData,
+                        incomingData.length);
+                try {
+                    socket.receive(incomingPacket);
+                    String message = new String(incomingPacket.getData());
+                    InetAddress IPAddress = incomingPacket.getAddress();
+                    int port = incomingPacket.getPort();
+                    socket.setSoTimeout(30000);
+                    System.out.println("Received message from client: " + message);
+                    System.out.println("Client IP: " + IPAddress.getHostAddress());
+                    System.out.println("Client port: " + port);
+
+                    LocalDateTime currentTime = LocalDateTime.now();
+                    upNodes.put(IPAddress, currentTime);
+
+                    System.out.println("Clients: " + upNodes.toString() + "\n");
+
+                    String reply = upNodes.toString();
+                    byte[] data = reply.getBytes();
+
+                    DatagramPacket replyPacket = new DatagramPacket(data, data.length, IPAddress, port);
+                    socket.send(replyPacket);
+                }
+                catch (SocketTimeoutException e)
+                {
+                    System.out.println("Timeout...");
+                    //upNodes.put(IPAddress, true);
+                    socket.close();
+                }
             }
-        } 
-        catch (SocketException e) 
-        {
-            e.printStackTrace();
-        } 
-        catch (IOException i) 
-        {
-            i.printStackTrace();
-        } 
-        catch (InterruptedException e) 
+        }
+
+        catch (IOException e)
         {
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) 
+    public static void main(String[] args)
     {
         UDPServer server = new UDPServer();
-        server.createAndListenSocket();
+        server.run();
     }
 }
