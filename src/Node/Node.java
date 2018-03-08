@@ -3,12 +3,20 @@ import java.io.IOException;
 import java.net.*;
 import java.util.*;
 
+/**
+ * Node file for each peer to run in a p2p connection.
+ * @author Ahn Nguyen, Andrew Rodeghero, Minghao Shan, Harshavardhan Madduri
+ * @version 03/07/2018
+ */
 public class Node implements Runnable {
 	DatagramSocket socket = null;
 	ArrayList<InetAddress> connectedNode = new ArrayList();
 	private int msDelay;
 	static HashMap<InetAddress, Integer> upNodes = new HashMap<>();
 
+	/**
+	 * Default Node constructor
+	 */
 	public Node() {
 	}
 
@@ -16,14 +24,17 @@ public class Node implements Runnable {
 		return upNodes;
 	}
 
+	/**
+	 * Run thread that handles the peer's connection with other peers.
+	 */
 	public void run() {
-
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter ip: ");
 		String myIP = scan.nextLine();
 		System.out.println("enter port number: ");
 		int p = scan.nextInt();
 
+		/* Checks if a client's IP is already a connectedNode */
 		try {
 			if (!connectedNode.contains(InetAddress.getByName(myIP))) {
 				connectedNode.add(InetAddress.getByName(myIP));
@@ -32,19 +43,21 @@ public class Node implements Runnable {
 			e1.printStackTrace();
 		}
 
+		/* Waits for another peer to connect for 30 seconds, or 30000ms */
 		try {
 			System.out.println("Joining Socket: " + p);
 			socket = new DatagramSocket(p);
 			byte[] incomingData = new byte[1024];
 			socket.setSoTimeout(30000);
 
+			/* Handles receiving and sending packets with connected peers */
 			while (true) {
-
 				DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
 				try {
 					socket.receive(incomingPacket);
 					String message = new String(incomingPacket.getData());
 					InetAddress IPAddress = incomingPacket.getAddress();
+					/* Adds the node's IP to connectedNode if it is not already */
 					if (!connectedNode.contains(IPAddress)) {
 						connectedNode.add(IPAddress);
 					}
@@ -55,15 +68,19 @@ public class Node implements Runnable {
 					System.out.println("This Node is currently connected to: " + connectedNode.size());
 					upNodes.put(IPAddress, 0);
 
+					/* Prints all peers that are currently connected */
 					System.out.println("Peers: " + upNodes.toString() + "\n");
 
+					/* Sends the connected peers the list of all available peers */
 					String reply = upNodes.toString();
 					byte[] data = reply.getBytes();
 					for (InetAddress ip : connectedNode) {
 						DatagramPacket replyPacket = new DatagramPacket(data, data.length, ip, port);
 						socket.send(replyPacket);
 					}
-				} catch (SocketTimeoutException e) {
+				}
+				/* If no other peer connects within 30 seconds, the node is the first one connected */
+				catch (SocketTimeoutException e) {
 					System.out.println("Timeout... I'm the first one in the server");
 					while (true) {
 						msDelay = (new Random().nextInt(5) + 1) * 1000;
@@ -74,6 +91,7 @@ public class Node implements Runnable {
 							System.out.println("Sending package to:" + ip);
 							socket.send(sendPacket);
 						}
+						/* Receives a response from the "server" node the peer is connected to */
 						try {
 							socket.receive(incomingPacket);
 							String response = new String(incomingPacket.getData());
@@ -94,8 +112,10 @@ public class Node implements Runnable {
 		}
 	}
 
+	/**
+	 * Main function that creates a new Node
+	 */
 	public static void main(String[] args) {
-
 		Node server = new Node();
 		HashMap<InetAddress, Integer> upNodes = Node.getIPList();
 		Timer timer = new Timer();
