@@ -2,22 +2,20 @@ package Networking;
 
 import java.io.IOException;
 import java.net.*;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.text.SimpleDateFormat;
 
 public class UDPServer implements Runnable
 {
-    DatagramSocket socket = null;
-    static HashMap<InetAddress, Integer> upNodes = new HashMap<>();
+    private DatagramSocket socket = null;
+    private static HashMap<InetAddress, Integer> upNodes = new HashMap<>();
 
 
 
-    public UDPServer()
+    private UDPServer()
     {
     }
 
-    public static HashMap<InetAddress, Integer> getIPList()
+    private static HashMap<InetAddress, Integer> getIPList()
     {
         return upNodes;
     }
@@ -55,13 +53,8 @@ public class UDPServer implements Runnable
                 }
                 catch (SocketTimeoutException e)
                 {
-                    System.out.println("Timeout...");
-                    //upNodes.put(IPAddress, true);
+                    System.out.println("SocketTimeoutException");
                     socket.close();
-                }
-                catch (ConcurrentModificationException e)
-                {
-                    // all good!
                 }
             }
         }
@@ -97,17 +90,6 @@ public class UDPServer implements Runnable
                         upNodes.put(key, val);
                     }
                 }
-
-                /*for (InetAddress key : upNodes.keySet()){
-                    int curr = upNodes.get(key);
-                    curr++;
-                    if (curr >= 30){
-                        System.out.println(key.toString() + " has timed out");
-                        upNodes.remove(key);
-                    }else {
-                        upNodes.put(key, curr);
-                    }
-                }*/
             }
         }, 0, 1000);
         server.run();
