@@ -52,7 +52,8 @@ public class UDPServer implements Runnable
                 System.out.println("Clients: " + upNodes.toString() + "\n");
                 //send reply
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                String reply = getHeader(IPAddress.getHostAddress(), dateFormat.format(new Date())) + upNodes.toString() + getEnding();
+                String reply = getHeader(IPAddress.getHostAddress(), dateFormat.format(new Date())) +
+                        "List of available clients: \n" + upNodes.toString() + getEnding();
                 byte[] data = reply.getBytes();
                 DatagramPacket replyPacket = new DatagramPacket(data, data.length, IPAddress, port);
                 socket.send(replyPacket);
@@ -99,14 +100,14 @@ public class UDPServer implements Runnable
      */
     public static String getHeader(String receiverIP, String time) {
         return  "-------------------HEADER-------------------" + "\nSent to IP  :" + receiverIP +
-                "\nTime stamp  : " + time + "--------------------------------------------";
+                "\nTime stamp  : " + time + "--------------------------------------------\n";
     }
 
     /**
      * Get ending of the file
      */
     public static String getEnding() {
-        return "--------------------END--------------------";
+        return "\n--------------------END--------------------";
     }
 
     /**
