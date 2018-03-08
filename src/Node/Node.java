@@ -29,7 +29,9 @@ public class Node implements Runnable
         int p = scan.nextInt();
         //String curent_ip = scan.nextLine();
         try {
-            connectedNode.add(InetAddress.getByName(myIP));
+            if(!connectedNode.contains(myIP)) {
+                connectedNode.add(InetAddress.getByName(myIP));
+            }
         } catch (UnknownHostException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -67,12 +69,12 @@ public class Node implements Runnable
                     }
                     int port = incomingPacket.getPort();
                     System.out.println("Received message from Node: " + message);
-                    System.out.println("Client IP: " + IPAddress.getHostAddress());
-                    System.out.println("Client port: " + port);
-                    System.out.printf("This Node is currently connecto: %d ",connectedNode.size());
+                    System.out.println("Peer IP: " + IPAddress.getHostAddress());
+                    System.out.println("Peer port: " + port);
+                    System.out.printf("This Node is currently connec to: %d ",connectedNode.size());
                     upNodes.put(IPAddress, 0);
 
-                    System.out.println("Clients: " + upNodes.toString() + "\n");
+                    System.out.println("Peers: " + upNodes.toString() + "\n");
 
                     String reply = upNodes.toString();
                     byte[] data = reply.getBytes();
@@ -86,7 +88,7 @@ public class Node implements Runnable
                     System.out.println("Timeout... I'm the first one in the server");
                     while (true)
                     {
-                        msDelay = (new Random().nextInt(41) + 10) * 100;
+                        msDelay = (new Random().nextInt(5) + 1) * 1000;
                         String sentence = "This is a boo";
                         byte[] data = sentence.getBytes();
                         for (InetAddress ip: connectedNode){
@@ -100,8 +102,11 @@ public class Node implements Runnable
                             //socket.receive(inPackage);
                             String response = new String(incomingPacket.getData());
                             System.out.println("Response from server: " + response);
+                            Thread.sleep(msDelay);
                         } catch(SocketTimeoutException e2){
                             //We good !
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
                         }
                     }
                 }
