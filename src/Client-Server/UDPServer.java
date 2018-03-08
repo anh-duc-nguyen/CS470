@@ -2,6 +2,8 @@ package Networking;
 
 import java.io.IOException;
 import java.net.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -48,7 +50,9 @@ public class UDPServer implements Runnable
                 System.out.println("Client port: " + port);
                 upNodes.put(IPAddress, 0);
                 System.out.println("Clients: " + upNodes.toString() + "\n");
-                String reply = upNodes.toString();
+                //send reply
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                String reply = getHeader(IPAddress.getHostAddress(), dateFormat.format(new Date())) + upNodes.toString() + getEnding();
                 byte[] data = reply.getBytes();
                 DatagramPacket replyPacket = new DatagramPacket(data, data.length, IPAddress, port);
                 socket.send(replyPacket);
@@ -89,6 +93,25 @@ public class UDPServer implements Runnable
             }
         }, 0, 1000);
     }
+
+    /**
+     * Get the header of the file
+     */
+    public static String getHeader(String receiverIP, String time) {
+        return  "-------------------HEADER-------------------" + "\nSent to IP  :" + receiverIP +
+                "\nTime stamp  : " + time + "--------------------------------------------";
+    }
+
+    /**
+     * Get ending of the file
+     */
+    public static String getEnding() {
+        return "--------------------END--------------------";
+    }
+
+    /**
+     * Main Program
+     */
     public static void main(String[] args)
     {
 
