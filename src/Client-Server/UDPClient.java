@@ -1,66 +1,74 @@
 package Networking;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.Scanner;
 import java.util.Random;
 
-public class UDPClient implements Runnable {
-	DatagramSocket socket;
-	private int msDelay;
+/**
+ * The UDP Client
+ * @author      Minghao Shan, ...........
+ * @version     03/07/2018
+ */
+public class UDPClient implements Runnable
+{
+    DatagramSocket socket;
+    private int msDelay;
 
-	public UDPClient() {
+    /**
+     * Constructor
+     */
+    public UDPClient(){}
 
-	}
+    /**
+     * Executes the client
+     */
+    public void run()
+    {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter the IP of the server: ");
+        String serverIP = scan.nextLine();
+        try
+        {
+            socket = new DatagramSocket();
+            //set the time out to 10 seconds
+            socket.setSoTimeout(10000);
+            InetAddress IPAddress = InetAddress.getByName(serverIP);
 
-	public void run() {
-		Scanner scan = new Scanner(System.in);
-		System.out.println("Enter the IP of the server: ");
-		String serverIP = scan.nextLine();
-		try {
-			socket = new DatagramSocket();
-			socket.setSoTimeout(10000);
-			// Acquires IP Address of the server
-			InetAddress IPAddress = InetAddress.getByName(serverIP);
-			int packetNum = 1;
-			int uptime = 0;
+            while (true)
+            {
+                byte[] incomingData = new byte[1024];
+                msDelay = (new Random().nextInt(41) + 10) * 100;
+                String sentence = "Request sent from client to connect";
+                byte[] data = sentence.getBytes();
+                DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, 9876);
+                socket.send(sendPacket);
+                System.out.println("Message sent from client");
+                DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
+                socket.receive(incomingPacket);
+                String response = new String(incomingPacket.getData());
+                System.out.println("Response from server: " + response);
+                Thread.sleep(msDelay);
+            }
+        }
+        catch (IOException e)
+        {
+            socket.close();
+            System.out.println("Client cannot connect to server");
+            e.printStackTrace();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-			while (true) {
-				byte[] incomingData = new byte[1024];
-				// Creating a delay
-				msDelay = (new Random().nextInt(41) + 10) * 100;
-				uptime += msDelay;
-				String sentence = Integer.toString(packetNum);
-				byte[] data = sentence.getBytes();
-				DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, 9876);
-				socket.send(sendPacket);
-				// Prints message after the packet is sent
-				System.out.println("Message sent from client");
-				packetNum++;
-
-				try {
-					DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
-					socket.receive(incomingPacket);
-					String response = new String(incomingPacket.getData());
-					System.out.println("Response from server: " + response);
-
-					System.out.println("Client uptime: " + uptime + "ms\n");
-
-					Thread.sleep(msDelay);
-				} catch (SocketTimeoutException e) {
-					// Prints message when the client connection to server is lost & closes open socket
-					System.out.println("Connection to server has been lost.");
-					socket.close();
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void main(String[] args) {
-		UDPClient client = new UDPClient();
-		client.run();
-	}
+    /**
+     * Main function
+     */
+    public static void main(String[] args)
+    {
+        UDPClient client = new UDPClient();
+        client.run();
+    }
 }
