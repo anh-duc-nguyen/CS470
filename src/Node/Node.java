@@ -25,7 +25,7 @@ public class Node implements Runnable {
 		int p = scan.nextInt();
 
 		try {
-			if (!connectedNode.contains(myIP)) {
+			if (!connectedNode.contains(InetAddress.getByName(myIP))) {
 				connectedNode.add(InetAddress.getByName(myIP));
 			}
 		} catch (UnknownHostException e1) {
@@ -45,14 +45,14 @@ public class Node implements Runnable {
 					socket.receive(incomingPacket);
 					String message = new String(incomingPacket.getData());
 					InetAddress IPAddress = incomingPacket.getAddress();
-					if (!Arrays.asList(connectedNode).contains(IPAddress)) {
+					if (!connectedNode.contains(IPAddress)) {
 						connectedNode.add(IPAddress);
 					}
 					int port = incomingPacket.getPort();
 					System.out.println("Received message from Node: " + message);
 					System.out.println("Peer IP: " + IPAddress.getHostAddress());
 					System.out.println("Peer port: " + port);
-					System.out.printf("This Node is currently connec to: %d ", connectedNode.size());
+					System.out.println("This Node is currently connected to: " + connectedNode.size());
 					upNodes.put(IPAddress, 0);
 
 					System.out.println("Peers: " + upNodes.toString() + "\n");
