@@ -26,12 +26,12 @@ public class UDPClient implements Runnable
             socket = new DatagramSocket();
             socket.setSoTimeout(10000);
             InetAddress IPAddress = InetAddress.getByName(serverIP);
-            byte[] incomingData = new byte[1024];
             int packetNum = 1;
             int uptime = 0;
 
             while (true)
             {
+                byte[] incomingData = new byte[1024];
                 //this.incUptime();
                 msDelay = (new Random().nextInt(41) + 10) * 100;
                 uptime += msDelay;

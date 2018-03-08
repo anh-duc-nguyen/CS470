@@ -47,6 +47,10 @@ public class UDPServer implements Runnable
 
                     String reply = upNodes.toString();
                     byte[] data = reply.getBytes();
+                    /**
+                     * Debug
+                     */
+                    System.out.println(new String(data) + "\n\n");
 
                     DatagramPacket replyPacket = new DatagramPacket(data, data.length, IPAddress, port);
                     socket.send(replyPacket);
@@ -73,7 +77,7 @@ public class UDPServer implements Runnable
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                Iterator iterator = upNodes.entrySet().iterator();
+                Iterator<HashMap.Entry<InetAddress, Integer>> iterator = upNodes.entrySet().iterator();
                 while (iterator.hasNext())
                 {
                     HashMap.Entry entry = (HashMap.Entry)iterator.next();
