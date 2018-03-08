@@ -2,6 +2,9 @@ package Networking;
 
 import java.io.IOException;
 import java.net.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -39,8 +42,10 @@ public class UDPClient implements Runnable
             {
                 byte[] incomingData = new byte[1024];
                 msDelay = (new Random().nextInt(41) + 10) * 100;
-                String sentence = "Request sent from client to connect";
-                byte[] data = sentence.getBytes();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                String request = getHeader(IPAddress.getHostAddress(), dateFormat.format(new Date())) +
+                        "Request sent from client to connect\n" + getEnding();
+                byte[] data = request.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, 9876);
                 socket.send(sendPacket);
                 System.out.println("Message sent from client");
@@ -61,6 +66,21 @@ public class UDPClient implements Runnable
         {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Get the header of the file
+     */
+    public static String getHeader(String receiverIP, String time) {
+        return  "-------------------HEADER-------------------" + "\nSent to IP  :" + receiverIP +
+                "\nTime stamp  : " + time + "--------------------------------------------";
+    }
+
+    /**
+     * Get ending of the file
+     */
+    public static String getEnding() {
+        return "--------------------END--------------------";
     }
 
     /**
