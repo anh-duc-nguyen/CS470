@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca6d04e9-0819-4d60-af32-b42d7e5aa953" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Networking/UDPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Networking/UDPClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Networking/UDPServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Networking/UDPServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,11 +30,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UDPClient.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UDPClient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Networking/UDPClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="33" column="53" selection-start-line="33" selection-start-column="53" selection-end-line="33" selection-end-column="53" />
+            <state relative-caret-position="176">
+              <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Node.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Node/Node.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="13" selection-start-column="13" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -62,8 +71,8 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>incomingData</find>
       <find>receiving</find>
+      <find>incomingData</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -74,6 +83,7 @@
       <list>
         <option value="$PROJECT_DIR$/src/Networking/UDPServer.java" />
         <option value="$PROJECT_DIR$/src/Networking/UDPClient.java" />
+        <option value="$PROJECT_DIR$/src/Node/Node.java" />
       </list>
     </option>
   </component>
@@ -112,6 +122,12 @@
               <item name="CS470" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Networking" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Network" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CS470" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Node" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -241,12 +257,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1520459339457</updated>
-      <workItem from="1520475194143" duration="3406000" />
+      <workItem from="1520475194143" duration="3845000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3406000" />
+    <option name="totallyTimeSpent" value="3845000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="56" y="-11" width="1865" height="1092" extended-state="6" />
@@ -260,12 +276,12 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3432377" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3432377" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15780999" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10037574" />
       <window_info anchor="right" id="Database" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -339,8 +355,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Networking/UDPClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="33" column="53" selection-start-line="33" selection-start-column="53" selection-end-line="33" selection-end-column="53" />
+        <state relative-caret-position="176">
+          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Node/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="13" selection-start-column="13" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
