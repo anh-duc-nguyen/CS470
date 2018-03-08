@@ -7,8 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * The UDP Client
- * @author      Minghao Shan, ...........
+ * The UDP Server
+ * @author      Minghao Shan, Andrew Rodeghero, Anh Nguyen, Harshavardhan Madduri
  * @version     03/07/2018
  */
 public class UDPServer implements Runnable
