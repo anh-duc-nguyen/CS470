@@ -10,7 +10,7 @@ import java.util.Random;
 
 /**
  * The UDP Client
- * @author      Minghao Shan, ...........
+ * @author      Minghao Shan, Andrew Rodeghero, Anh Nguyen, Harshavardhan Madduri
  * @version     03/07/2018
  */
 public class UDPClient implements Runnable
@@ -45,13 +45,13 @@ public class UDPClient implements Runnable
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 String request = getHeader(IPAddress.getHostAddress(), dateFormat.format(new Date())) +
                         "Request sent from client to connect\n" + getEnding();
-                byte[] data = request.getBytes();
+                byte[] data = request.getBytes("UTF-8");
                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, 9876);
                 socket.send(sendPacket);
                 System.out.println("Message sent from client");
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
                 socket.receive(incomingPacket);
-                String response = new String(incomingPacket.getData(),"UTF-16");
+                String response = new String(incomingPacket.getData(),"US-ASCII");
                 System.out.println("Response from server: " + response);
                 Thread.sleep(msDelay);
             }

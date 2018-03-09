@@ -42,7 +42,7 @@ public class UDPServer implements Runnable
                 //receive the packet from client
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
                 socket.receive(incomingPacket);
-                String message = new String(incomingPacket.getData(),"UTF-16");
+                String message = new String(incomingPacket.getData(),"US-ASCII");
                 InetAddress IPAddress = incomingPacket.getAddress();
                 int port = incomingPacket.getPort();
                 System.out.println("Received message from client: " + message);
@@ -54,7 +54,7 @@ public class UDPServer implements Runnable
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 String reply = getHeader(IPAddress.getHostAddress(), dateFormat.format(new Date())) +
                         "List of available clients: \n" + upNodes.toString() + getEnding();
-                byte[] data = reply.getBytes();
+                byte[] data = reply.getBytes("UTF-8" );
                 DatagramPacket replyPacket = new DatagramPacket(data, data.length, IPAddress, port);
                 socket.send(replyPacket);
             }
