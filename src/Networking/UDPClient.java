@@ -51,7 +51,7 @@ public class UDPClient implements Runnable
                 System.out.println("Message sent from client");
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
                 socket.receive(incomingPacket);
-                String response = new String(incomingPacket.getData());
+                String response = new String(incomingPacket.getData(),"UTF-16");
                 System.out.println("Response from server: " + response);
                 Thread.sleep(msDelay);
             }
@@ -72,15 +72,15 @@ public class UDPClient implements Runnable
      * Get the header of the file
      */
     public static String getHeader(String receiverIP, String time) {
-        return  "-------------------HEADER-------------------" + "\nSent to IP  :" + receiverIP +
-                "\nTime stamp  : " + time + "--------------------------------------------";
+        return  "\n-------------------HEADER-------------------" + "\nSent to IP  :" + receiverIP +
+                "\nTime stamp  : " + time + "\n--------------------------------------------\n";
     }
 
     /**
      * Get ending of the file
      */
     public static String getEnding() {
-        return "--------------------END--------------------";
+        return "--------------------END--------------------\n";
     }
 
     /**

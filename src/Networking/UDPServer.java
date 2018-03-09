@@ -42,7 +42,7 @@ public class UDPServer implements Runnable
                 //receive the packet from client
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
                 socket.receive(incomingPacket);
-                String message = new String(incomingPacket.getData());
+                String message = new String(incomingPacket.getData(),"UTF-16");
                 InetAddress IPAddress = incomingPacket.getAddress();
                 int port = incomingPacket.getPort();
                 System.out.println("Received message from client: " + message);
@@ -99,15 +99,15 @@ public class UDPServer implements Runnable
      * Get the header of the file
      */
     public static String getHeader(String receiverIP, String time) {
-        return  "-------------------HEADER-------------------" + "\nSent to IP  :" + receiverIP +
-                "\nTime stamp  : " + time + "--------------------------------------------\n";
+        return  "\n-------------------HEADER-------------------" + "\nSent to IP  :" + receiverIP +
+                "\nTime stamp  : " + time + "\n--------------------------------------------\n";
     }
 
     /**
      * Get ending of the file
      */
     public static String getEnding() {
-        return "\n--------------------END--------------------";
+        return "\n--------------------END--------------------\n";
     }
 
     /**
@@ -115,9 +115,8 @@ public class UDPServer implements Runnable
      */
     public static void main(String[] args)
     {
-
         UDPServer server = new UDPServer();
-        server.run();
         removeClient();
+        server.run();
     }
 }
