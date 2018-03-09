@@ -10,9 +10,8 @@ import java.util.*;
  */
 public class Node implements Runnable {
 	DatagramSocket socket = null;
-	ArrayList<InetAddress> connectedNode = new ArrayList();
-	private int msDelay;
-	static HashMap<InetAddress, Integer> upNodes = new HashMap<>();
+	private static ArrayList<InetAddress> connectedNode = new ArrayList<>();
+	private static HashMap<InetAddress, Integer> upNodes = new HashMap<>();
 
 	/**
 	 * Default Node constructor
@@ -28,6 +27,7 @@ public class Node implements Runnable {
 	 * Run thread that handles the peer's connection with other peers.
 	 */
 	public void run() {
+		int msDelay;
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter ip: ");
 		String myIP = scan.nextLine();
@@ -84,8 +84,9 @@ public class Node implements Runnable {
 					System.out.println("Timeout... I'm the first one in the server");
 					while (true) {
 						msDelay = (new Random().nextInt(5) + 1) * 1000;
-						String sentence = "This is a boo";
+						String sentence = upNodes.toString() + "\n";
 						byte[] data = sentence.getBytes();
+						System.out.println("This node is currently connected to : " + connectedNode.size());
 						for (InetAddress ip : connectedNode) {
 							DatagramPacket sendPacket = new DatagramPacket(data, data.length, ip, p);
 							System.out.println("Sending package to:" + ip);
@@ -127,6 +128,7 @@ public class Node implements Runnable {
 					if (curr >= 30) {
 						System.out.println(key.toString() + " has timed out");
 						upNodes.remove(key);
+						connectedNode.remove(key);
 					} else {
 						upNodes.put(key, curr);
 					}
