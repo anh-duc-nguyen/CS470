@@ -1,5 +1,6 @@
 package ProxyNetwork;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.*;
 
 public class Client {
@@ -9,7 +10,7 @@ public class Client {
 	private byte[] request;
 	private final DatagramSocket SOCKET;
 	public Client(String name) throws UnknownHostException, SocketException{
-		SOCKET = new DatagramSocket(9999);
+		SOCKET = new DatagramSocket(8888);
 		this.myIPAddress = InetAddress.getLocalHost();
 		this.name = name;
 	}
@@ -44,5 +45,12 @@ public class Client {
 		byte[] messager = new byte[1024];
 		DatagramPacket recievePacket = new DatagramPacket(messager, messager.length);
 		SOCKET.receive(recievePacket);
+		System.out.println(printPacket(recievePacket));
+	}
+	public String printPacket(DatagramPacket aPacket) throws UnsupportedEncodingException{
+		return new String(aPacket.getData(),"US-ASCII");
+	}
+	public void closeSocket(){
+		SOCKET.close();
 	}
 }
