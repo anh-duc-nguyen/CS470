@@ -42,7 +42,7 @@ public class Client {
 	}
 	public void recievingPacket() throws IOException{
 		byte[] messager = new byte[1024];
-		DatagramPacket recievePacket = new DatagramPacket(messager, messager.length);
+		DatagramPacket recievePacket = new DatagramPacket(messager, messager.length,providerIP,SOCKET);
 		SOCKET.receive(recievePacket);
 	}
 }

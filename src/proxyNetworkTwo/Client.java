@@ -14,8 +14,8 @@ public class Client extends NetworkEntity {
 	public Client(String name) throws UnknownHostException, SocketException {
 		super(name);
 	}
-	public void setProvider(InetAddress providerIP){
-		this.providerIP = providerIP;
+	public void setProvider(String provider) throws UnknownHostException{
+		this.providerIP = InetAddress.getByName(provider);
 	}
 	public void setRequest(String request){
 		this.request = request;
@@ -26,13 +26,13 @@ public class Client extends NetworkEntity {
 	}
 	public void sendingPacket() throws IOException{
 		//Message message = new Message(myIP, providerIP,request);
-		DatagramPacket sendPacket = new DatagramPacket(message, message.length);
-        this.SOCKET.send(sendPacket);
+		DatagramPacket sendPacket = new DatagramPacket(message, message.length,providerIP,9999);
+        SOCKET.send(sendPacket);
 	}
 	public void recievingPacket() throws IOException{
 		byte[] inMessage = new byte[1024];
 		DatagramPacket inPacket = new DatagramPacket(inMessage, inMessage.length);
 		SOCKET.receive(inPacket);
-		System.out.print(inMessage);
+		System.out.println(new String(inPacket.getData(),"US-ASCII"));
 	}
 }
