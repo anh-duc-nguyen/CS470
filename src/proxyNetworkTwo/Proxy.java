@@ -46,7 +46,7 @@ public class Proxy extends NetworkEntity {
 	}
 	
 	public void newClientConnected(InetAddress clientIP, String clientRequest) throws SocketException{
-		Thread newThread = new ProxyThread(clientIP, clientRequest);
+		Thread newThread = new ProxyThread(clientIP, clientRequest, this.cache);
 		threadList.put(clientIP, (ProxyThread) newThread);
 	}
 	public void runn(){

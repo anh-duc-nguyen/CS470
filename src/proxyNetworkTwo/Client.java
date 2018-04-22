@@ -29,10 +29,11 @@ public class Client extends NetworkEntity {
 		DatagramPacket sendPacket = new DatagramPacket(message, message.length,providerIP,9999);
         SOCKET.send(sendPacket);
 	}
-	public void recievingPacket() throws IOException{
+	public DatagramPacket recievingPacket() throws IOException{
 		byte[] inMessage = new byte[1024];
 		DatagramPacket inPacket = new DatagramPacket(inMessage, inMessage.length);
 		SOCKET.receive(inPacket);
 		System.out.println(new String(inPacket.getData(),"US-ASCII"));
+		return inPacket;
 	}
 }
