@@ -13,7 +13,7 @@ public class ProxyThread extends Thread {
 	private final DatagramSocket SOCKET;
 	public ConcurrentHashMap <String, InetAddress> cache;
 	public ProxyThread(InetAddress client, String clientRequest, ConcurrentHashMap <String, InetAddress> cache ) throws SocketException{
-		client = client;
+		this.client = client;
 		clientRequest = clientRequest;
 		this.SOCKET = new DatagramSocket(9999);
 		cache = cache;
@@ -50,7 +50,7 @@ public class ProxyThread extends Thread {
 				sendingPacket("Not implemented", clientPacket.getAddress());
 				return;
 			}
-			String host = clientRequest.substring(3,5);
+			String host = clientRequest.substring(4,6);
 			if(cache.containsKey(host)){
 				InetAddress hostIP = cache.get(host);
 				sendingPacket(clientRequest, hostIP);

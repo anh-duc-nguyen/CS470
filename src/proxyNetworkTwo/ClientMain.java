@@ -10,7 +10,7 @@ public class ClientMain {
 		String name = "Anh Nguyen-PC";
 		Client aClient = new Client(name);
 		
-		aClient.setProvider("150.243.17.14");
+		aClient.setProvider("150.243.16.1");
 		String Query = "";
 		
 		while (!Query.equals("exit")){

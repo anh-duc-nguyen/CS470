@@ -1,6 +1,7 @@
 package proxyNetworkTwo;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -9,7 +10,7 @@ public class ServerMain {
 
 	public static void main(String[] args) throws IOException {
 		Server myServer = new Server("foo");
-		String request;
+		DatagramPacket request;
 		String respond;
 
 		myServer.newEntry(myServer.getName(), "Online");
@@ -21,8 +22,11 @@ public class ServerMain {
 		
 		while(true){
 			request = myServer.recievingPacket();
-			respond = myServer.getRespond(request.trim());
-			myServer.sendingPacket(respond, InetAddress.getByName("150.243.17.14"));
+			String request_ = new String(request.getData(),"US-ASCII");
+			respond = myServer.getRespond(request_.trim());
+			myServer.sendingPacket(respond, request.getAddress());
+			System.out.print("sending packet to");
+			System.out.print(request.getAddress().getHostAddress());
 		}
 	}
 }

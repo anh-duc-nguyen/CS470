@@ -20,12 +20,13 @@ public class Server extends NetworkEntity {
 		DatagramPacket sendPacket = new DatagramPacket(message_, message_.length,reciever,9999);
         SOCKET.send(sendPacket);
 	}
-	public String recievingPacket() throws IOException{
+	public DatagramPacket recievingPacket() throws IOException{
 		byte[] inMessage = new byte[1024];
 		DatagramPacket inPacket = new DatagramPacket(inMessage, inMessage.length);
 		SOCKET.receive(inPacket);
 		System.out.println(new String(inPacket.getData(),"US-ASCII"));
-		return new String(inPacket.getData(),"US-ASCII");
+		return inPacket;
+		//return new String(inPacket.getData(),"US-ASCII");
 	}
 	public void newEntry(String request, String responde){
 		map.put(request, responde);
