@@ -1,4 +1,4 @@
-package proxyNetworkTwo;
+package proxyNetwork;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -7,6 +7,11 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ *
+ * @author  Minghao Shan, Anh Nguyen, Andrew Rodeghero, Harshavardhan Reddy Madduri
+ * @version 04/22/2018
+ */
 public class ProxyThread extends Thread {
 	private InetAddress client;
 	private DatagramPacket clientPacket;
@@ -18,7 +23,12 @@ public class ProxyThread extends Thread {
 		this.SOCKET = new DatagramSocket(9999);
 		cache = cache;
 	}
-	
+
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
 	public DatagramPacket recievingPacket() throws IOException{
 		byte[] inMessage = new byte[1024];
 		DatagramPacket inPacket = new DatagramPacket(inMessage, inMessage.length);
@@ -26,12 +36,25 @@ public class ProxyThread extends Thread {
 		System.out.println(new String(inPacket.getData(),"US-ASCII"));
 		return inPacket;
 	}
+
+    /**
+     *
+     * @param message
+     * @param reciever
+     * @throws IOException
+     */
 	public void sendingPacket(String message, InetAddress reciever) throws IOException{
 		byte[] message_ = message.getBytes();
 		//Message message = new Message(myIP, providerIP,request);
 		DatagramPacket sendPacket = new DatagramPacket(message_, message_.length,reciever,9999);
         SOCKET.send(sendPacket);
 	}
+
+    /**
+     *
+     * @param host
+     * @return
+     */
 	public boolean lookingForNewHost(String host){
 		int timeout = 10;
 		int count = 0;
@@ -42,6 +65,10 @@ public class ProxyThread extends Thread {
 		return false;
 		
 	}
+
+    /**
+     * Runs when the thread is started.
+     */
 	public void run(){
 		try {
 			clientPacket = recievingPacket();

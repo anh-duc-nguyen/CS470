@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author nguyenducanh
- *
- */
-package proxyNetworkTwo;

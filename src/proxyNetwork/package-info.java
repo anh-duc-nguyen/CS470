@@ -5,4 +5,4 @@
  * @author nguyenducanh
  *
  */
-package ProxyNetwork;
+package proxyNetwork;
