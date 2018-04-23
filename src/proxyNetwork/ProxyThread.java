@@ -25,9 +25,8 @@ public class ProxyThread extends Thread {
 	}
 
     /**
-     *
-     * @return
-     * @throws IOException
+     * Receives the packet
+     * @return  The received packet
      */
 	public DatagramPacket recievingPacket() throws IOException{
 		byte[] inMessage = new byte[1024];
@@ -38,10 +37,9 @@ public class ProxyThread extends Thread {
 	}
 
     /**
-     *
-     * @param message
-     * @param reciever
-     * @throws IOException
+     * Send the packet
+     * @param message   The message
+     * @param reciever  The ip address of the receiver
      */
 	public void sendingPacket(String message, InetAddress reciever) throws IOException{
 		byte[] message_ = message.getBytes();
@@ -51,19 +49,20 @@ public class ProxyThread extends Thread {
 	}
 
     /**
-     *
-     * @param host
-     * @return
+     * Looks for new hosts
+     * @param host  The server
+     * @return      True if new host is found; false if the new host is not found.
      */
 	public boolean lookingForNewHost(String host){
 		int timeout = 10;
 		int count = 0;
 		boolean foundHost = false;
+
 		while(!foundHost || count <= timeout){
 			count+=1;
+			return true;
 		}
 		return false;
-		
 	}
 
     /**
