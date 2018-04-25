@@ -29,7 +29,7 @@ public class Proxy extends NetworkEntity {
 
     /**
      * Add the hostResponse to the cache
-     * @param host      The host?????????????????????
+     * @param host      The host
      * @param hostIP    The ip address of the host
      */
 	public void addCache(String host, InetAddress hostIP){
@@ -37,16 +37,14 @@ public class Proxy extends NetworkEntity {
 	}
 
     /**
-     * Checks if the host is online????????????????????
-     * @param host      The host ??????
+     * Checks if the host is online
+     * @param host      The host
      */
 	public void checkHost(String host) throws IOException{
 		InetAddress hostIP = cache.get(host);
 		sendingPacket(host,hostIP);
 
-		//if the host is DISCONNECTED?????, remove the host
-
-
+		//if the host is DISCONNECTED, remove the host
 		if (! recievingPacket().equals("Online") ){
 			cache.remove(hostIP);
 		}
@@ -62,13 +60,10 @@ public class Proxy extends NetworkEntity {
 	}
 
     /**
-     * Not sure what it does????????????????????????
-     *
-     *
-     * @param host  The host??????????
+     * Check is host is already in the cache
+     * @param host  The host
      * @return      Could not connect information
      */
-    //A host is a String?????????????????????
 	public String createHost(String host){
 		if (cache.containsKey(host)){
 			return cache.get(host).toString();
@@ -106,9 +101,9 @@ public class Proxy extends NetworkEntity {
 	}
 
     /**
-     *
-     * @param message
-     * @param reciever
+     * Send the packet to the client 
+     * @param message	    The request message
+     * @param reciever	    The ip address of reciver
      */
 	public void sendingPacket(String message, InetAddress reciever) throws IOException{
 		byte[] message_ = message.getBytes();
@@ -118,8 +113,8 @@ public class Proxy extends NetworkEntity {
 	}
 
     /**
-     * 
-     * @return
+     * Receives the packet
+     * @return	    	    The received packet
      */
 	public DatagramPacket recievingPacket() throws IOException{
 		byte[] inMessage = new byte[1024];
